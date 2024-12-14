@@ -1,0 +1,23 @@
+services:
+  openscad:
+    image: openscad/openscad:latest
+    build: .
+    command: openscad
+    hostname: openscad
+    user: "${UID}:${GID}" 
+    working_dir: ${HOME}    
+    privileged: true
+    network_mode: host    
+    environment:
+      - DISPLAY=${DISPLAY}
+      - USER=${USER}
+      - PULSE_SERVER=${PULSE_SERVER}      
+    volumes:
+      - ${HOME}:/home/${USER}
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw
+      - ${PWD}:/openscad
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /run/user/1000/pulse/native:/run/user/1000/pulse/native 
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+
